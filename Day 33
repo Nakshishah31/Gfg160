@@ -1,0 +1,23 @@
+class Solution:
+
+    def aggressiveCows(self, stalls, k):
+        stalls.sort()
+        def canPlaceCows(distance):
+            count, last_position = 1, stalls[0]
+            for i in range(1, len(stalls)):
+                if stalls[i] - last_position >= distance:
+                    count += 1
+                    last_position = stalls[i]
+                    if count == k:
+                        return True
+            return False
+        
+        low, high, result = 1, stalls[-1] - stalls[0], 0
+        while low <= high:
+            mid = (low + high) // 2
+            if canPlaceCows(mid):
+                result = mid
+                low = mid + 1
+            else:
+                high = mid - 1
+        return result
