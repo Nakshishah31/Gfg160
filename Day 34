@@ -1,0 +1,31 @@
+class Solution:
+    
+    #Function to find minimum number of pages.
+    def findPages(self, arr, k ):
+        #code here
+        if k > len(arr):
+            return -1
+
+        def isPossible(maxPages):
+            student_count, pages_sum = 1, 0
+            for pages in arr:
+                if pages > maxPages:  # Single book exceeds maxPages
+                    return False
+                if pages_sum + pages > maxPages:
+                    student_count += 1
+                    pages_sum = pages
+                    if student_count > k:
+                        return False
+                else:
+                    pages_sum += pages
+            return True
+
+        low, high, result = max(arr), sum(arr), -1
+        while low <= high:
+            mid = (low + high) // 2
+            if isPossible(mid):
+                result = mid
+                high = mid - 1
+            else:
+                low = mid + 1
+        return result
